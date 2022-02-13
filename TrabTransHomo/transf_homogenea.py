@@ -10,10 +10,11 @@ class Cliente():
         """
         atendimento = True
         while atendimento:
-            print('\n', '-'*100)
-            print('Transformações Homogêneas'.center(100))
-            print('-'*100)
-            sel = input("Serviços: \n1- Translação \n2- Translações sucessivas \n3- Rotação \n4- Rotações sucessivas \n5- Translação e rotação sucessivas \n6- Sair \nService N°: ")
+            print()
+            print('-'*80)
+            print('Transformações Homogêneas'.center(80))
+            print('-'*80)
+            sel = input("Serviços: \n1- Translação \n2- Translações sucessivas \n3- Rotação \n4- Rotações sucessivas \n5- Translação e rotação sucessivas \n6- Sair \nServiço N°: ")
             if sel == '1':
                 print('\nDigite o ponto P(X,Y,Z) a ser transladado!')
                 pontoP_X = int(input("X: "))
