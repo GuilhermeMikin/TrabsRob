@@ -1,3 +1,4 @@
+import math
 from time import sleep
 
 class Cliente():
@@ -22,24 +23,29 @@ class Cliente():
                 pontoP_Z = int(input("Z: "))
                 try:
                     print("Matriz de Transformação:")
-                    print(f"              |1 0 0 2|   |{pontoP_X}|   |{pontoP_X*2}|")
-                    print(f"P'[2, 3, 5] = |0 1 0 3| X |{pontoP_Y}| = |{pontoP_Y*3}|")
-                    print(f"              |0 0 1 5|   |{pontoP_Z}|   |{pontoP_Z*5}|")
-                    print(f"              |0 0 0 1|   |1|   |{1*1}|")
+                    print(f"              |1 0 0 2|   |{pontoP_X:2d}|   |{(pontoP_X+2):3d}|")
+                    print(f"P'[2, 3, 5] = |0 1 0 3| X |{pontoP_Y:2d}| = |{(pontoP_Y+3):3d}|")
+                    print(f"              |0 0 1 5|   |{pontoP_Z:2d}|   |{(pontoP_Z+5):3d}|")
+                    print(f"              |0 0 0 1|   | 1|   |{(1*1):3d}|")
                     sleep(5)
                 except Exception as e:
                     print('ERRO: ', e.args)
             elif sel == '2':
-                print('\nDigite a matriz de transformação T0(X0,Y0,Z0)!')
-                pontoP_X0 = int(input("X0: "))
-                pontoP_Y0 = int(input("Y0: "))
-                pontoP_Z0 = int(input("Z0: "))
-                print('\nDigite a matriz de transformação T1(X1,Y1,Z1)!')
-                pontoP_X1 = int(input("X1: "))
-                pontoP_Y1 = int(input("Y1: "))
-                pontoP_Z1 = int(input("Z1: "))
+                print('\nDigite a matriz de transformação T0(x0,y0,z0)!')
+                pontoP_X0 = int(input("x0: "))
+                pontoP_Y0 = int(input("y0: "))
+                pontoP_Z0 = int(input("z0: "))
+                print('\nDigite a matriz de transformação T1(x1,y1,z1)!')
+                pontoP_X1 = int(input("x1: "))
+                pontoP_Y1 = int(input("y: "))
+                pontoP_Z1 = int(input("z1: "))
                 try:
                     print("Resultado transformação sucessiva: ")
+                    print(f"        |1 0 0 {pontoP_X0+pontoP_X1}|   |{pontoP_X:2d}|   |{(pontoP_X+2):3d}|")
+                    print(f"T0.T1 = |0 1 0 {pontoP_Y0+pontoP_Y1}| X |{pontoP_Y:2d}| = |{(pontoP_Y+3):3d}|")
+                    print(f"        |0 0 1 {pontoP_Z0+pontoP_Z1}|   |{pontoP_Z:2d}|   |{(pontoP_Z+5):3d}|")
+                    print(f"        |0 0 0 {1}|   | 1|   |{(1*1):3d}|")
+                    sleep(5)
                 except Exception as e:
                     print('ERRO: ', e.args)
             elif sel == '3':
@@ -47,6 +53,8 @@ class Cliente():
                 anguloteta = int(input("Ângulo: "))
                 try:
                     print("Novas coordenadas: ")
+                    xlinha = (math.cos())
+                    print()
                 except Exception as e:
                     print('ERRO: ', e.args)
             elif sel == '4':
