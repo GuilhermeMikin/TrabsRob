@@ -85,7 +85,7 @@ class Cliente():
                 px = 4; py = 5; pz = 6
                 ptP_a_ser_rotacionado = np.array([px, py, pz, 1])
                 eixo = 'z'
-                novo_ponto_rot = rotacao(anguloteta, eixo, ptP_a_ser_rotacionado)
+                novo_ponto_rot = rotacao(anguloteta, eixo.capitalize()[0], ptP_a_ser_rotacionado)
                 
                 try:
                     print("\nNovas coordenadas:\n")
@@ -102,14 +102,14 @@ class Cliente():
             elif sel == '4':
                 print('\nDigite o ângulo teta e o eixo da primeira rotação (R1)!')
                 anguloteta = int(input("Ângulo: "))
-                eixorot1 = input("Eixo: ").lower
+                eixorot1 = input("Eixo: ")
                 print('\nDigite o ângulo alfa e o eixo da segunda rotação (R2)!')
                 anguloalfa = int(input("Ângulo: "))
-                eixorot2 = input("Eixo: ").lower
+                eixorot2 = input("Eixo: ")
                 px = 6; py = 6; pz = 8
                 ptP_a_ser_rotacionado = np.array([px, py, pz, 1])
-                novo_ponto_rot = rotacao(anguloteta, eixorot1, ptP_a_ser_rotacionado)
-                novo_ponto_rot2 = rotacao(anguloalfa, eixorot2, novo_ponto_rot)
+                novo_ponto_rot = rotacao(anguloteta, eixorot1.capitalize()[0], ptP_a_ser_rotacionado)
+                novo_ponto_rot2 = rotacao(anguloalfa, eixorot2.capitalize()[0], novo_ponto_rot)
 
                 try:
                     print("\nNovas coordenadas:\n")
@@ -137,7 +137,7 @@ class Cliente():
                     ponto_P = np.array([pontoP_X, pontoP_Y, pontoP_Z, 1])
                     vetor_translacao = np.array([tx, ty, 1, 1])
                     novo_ponto_trans = translacao(vetor_translacao, ponto_P)
-                    novo_ponto_rot = rotacao(anguloteta, eixorot1, novo_ponto_trans)
+                    novo_ponto_rot = rotacao(anguloteta, eixorot1.capitalize()[0], novo_ponto_trans)
                     print(f"               |1 0 0 {tx}|       |{pontoP_X:2d}|   |{(int(novo_ponto_rot[0])):3d}|")
                     print(f"P' = T.R(P) =  |0 1 0 {ty}| x R x |{pontoP_Y:2d}| = |{(int(novo_ponto_rot[1])):3d}|")
                     print(f"               |0 0 1 {1}|       |{pontoP_Z:2d}|   |{(int(novo_ponto_rot[2])):3d}|")
@@ -147,7 +147,7 @@ class Cliente():
                     pontoP_X = 4; pontoP_Y = 5; pontoP_Z = 7
                     ponto_P = np.array([pontoP_X, pontoP_Y, pontoP_Z, 1])
                     vetor_translacao = np.array([tx, ty, 1, 1])
-                    novo_ponto_rot = rotacao(anguloteta, eixorot1, ponto_P)
+                    novo_ponto_rot = rotacao(anguloteta, eixorot1.capitalize()[0], ponto_P)
                     novo_ponto_trans = translacao(vetor_translacao, novo_ponto_rot)
                     print(f"                   |1 0 0 {tx}|   |{pontoP_X:2d}|   |{(int(novo_ponto_trans[0])):3d}|")
                     print(f"P'' = R.T(P) = R x |0 1 0 {ty}| x |{pontoP_Y:2d}| = |{(int(novo_ponto_trans[1])):3d}|")
@@ -187,17 +187,17 @@ def translacao(vetor_translacao, ponto_a_ser_transladado):
 
 
 def rotacao(teta, eixo, pontop):
-    if eixo == 'x':
+    if eixo == 'X':
         matrizRot = np.array([ [1, 0, 0, 0], 
                       [0, int(cos(radians(teta))), int(-sin(radians(teta))), 0], 
                       [0, int(sin(radians(teta))), int(cos(radians(teta))), 0], 
                       [0, 0, 0, 1] ])
-    if eixo == 'y':
+    if eixo == 'Y':
         matrizRot = np.array([ [int(cos(radians(teta))), 0, int(sin(radians(teta))), 0], 
                       [0, 1, 0, 0], 
                       [int(-sin(radians(teta))), 0, int(cos(radians(teta))), 0], 
                       [0, 0, 0, 1] ])
-    if eixo == 'z':
+    if eixo == 'Z':
         matrizRot = np.array([ [int(cos(radians(teta))), int(-sin(radians(teta))), 0, 0], 
                       [int(sin(radians(teta))), int(cos(radians(teta))), 0, 0], 
                       [0, 0, 1, 0], 
@@ -206,4 +206,3 @@ def rotacao(teta, eixo, pontop):
     novoponto = np.dot(matrizRot, pontop)
     
     return novoponto
-
