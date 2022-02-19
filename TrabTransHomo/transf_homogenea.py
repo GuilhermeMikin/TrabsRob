@@ -18,7 +18,7 @@ class Cliente():
             print('-'*80)
             print('Transformações Homogêneas'.center(80))
             print('-'*80)
-            sel = input("Serviços: \n1- Translação \n2- Translações sucessivas \n3- Rotação \n4- Rotações sucessivas \n5- Translação e rotação sucessivas \n6- Sair \nServiço N°: ")
+            sel = input("Serviços: \n1- Translação \n2- Translações sucessivas \n3- Rotação \n4- Rotações sucessivas \n5- Translação e rotação sucessivas \n6- Parâmetros de Denavit Hartenberg \n7- Sair \nServiço N°: ")
             
             if sel == '1':
                 print('\nDigite o ponto P(X,Y,Z) a ser transladado!')
@@ -160,8 +160,33 @@ class Cliente():
                 except Exception as e:
                     print('ERRO: ', e.args)
             
-            
             elif sel == '6':
+                print('\nDigite os parâmetros de Denavit Hartenberg para um robô de dois elos, onde:\n')
+                print('                  |\u03B8j   dj   aj   \u03B1j|')
+                print('                  |q1    0   a1    0|')
+                print('                  |q2    0   a2    0|')
+                q1 = int(input("\nq1: "))
+                q2 = int(input("q2: "))
+                a1 = int(input("a1: "))
+                a2 = int(input("a2: "))
+                # px = 4; py = 5; pz = 6
+                # ptP_a_ser_rotacionado = np.array([px, py, pz, 1])
+                # eixo = 'z'
+                # novo_ponto_rot = rotacao(anguloteta, eixo.capitalize()[0], ptP_a_ser_rotacionado)
+                
+                try:
+                    print("\nNovas coordenadas (x,y) do TCP:\n")
+                    # print(f"                   |{px:2d}|   |{(int(novo_ponto_rot[0])):3d}|")
+                    # print(f"P' = rot(P) = R{eixo} x |{py:2d}| = |{(int(novo_ponto_rot[1])):3d}|")
+                    # print(f"                   |{pz:2d}|   |{(int(novo_ponto_rot[2])):3d}|")
+                    # print(f"                   | 1|   |{(1*1):3d}|")
+
+                    sleep(1)
+                except Exception as e:
+                    print('ERRO: ', e.args)
+
+
+            elif sel == '7':
                 confirm_close = input('\nTecle "SIM" para sair: ').capitalize()[0]
                 if confirm_close == 'S':
                     sleep(0.2)
@@ -205,4 +230,4 @@ def rotacao(teta, eixo, pontop):
                     
     novoponto = np.dot(matrizRot, pontop)
     
-    return novoponto
+    return novoponto, matrizRot
