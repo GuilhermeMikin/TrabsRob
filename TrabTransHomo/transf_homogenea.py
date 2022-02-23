@@ -136,9 +136,7 @@ class Cliente():
                     ponto_P = np.array([pontoP_X, pontoP_Y, pontoP_Z, 1])
                     vetor_translacao = np.array([tx, ty, 1, 1])
                     novo_ponto_trans = translacao(vetor_translacao, ponto_P)[0]
-                    print('oi')
                     novo_ponto_rot = rotacao(anguloteta, eixorot1, novo_ponto_trans)[0]
-                    print('oi')
                     print(f"               |1 0 0 {tx}|       |{pontoP_X:2d}|   |{(int(novo_ponto_rot[0])):3d}|")
                     print(f"P' = T.R(P) =  |0 1 0 {ty}| x R x |{pontoP_Y:2d}| = |{(int(novo_ponto_rot[1])):3d}|")
                     print(f"               |0 0 1 {1}|       |{pontoP_Z:2d}|   |{(int(novo_ponto_rot[2])):3d}|")
