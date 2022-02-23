@@ -85,8 +85,7 @@ class Cliente():
                 px = 4; py = 5; pz = 6
                 ptP_a_ser_rotacionado = np.array([px, py, pz, 1])
                 eixo = 'z'
-                novo_ponto_rot = rotacao(anguloteta, eixo.capitalize()[0], ptP_a_ser_rotacionado)
-                
+                novo_ponto_rot = rotacao(anguloteta, eixo, ptP_a_ser_rotacionado)[0]               
                 try:
                     print("\nNovas coordenadas:\n")
                     print(f"                   |{px:2d}|   |{(int(novo_ponto_rot[0])):3d}|")
@@ -108,8 +107,8 @@ class Cliente():
                 eixorot2 = input("Eixo: ")
                 px = 6; py = 6; pz = 8
                 ptP_a_ser_rotacionado = np.array([px, py, pz, 1])
-                novo_ponto_rot = rotacao(anguloteta, eixorot1.capitalize()[0], ptP_a_ser_rotacionado)[0]
-                novo_ponto_rot2 = rotacao(anguloalfa, eixorot2.capitalize()[0], novo_ponto_rot)[0]
+                novo_ponto_rot = rotacao(anguloteta, eixorot1, ptP_a_ser_rotacionado)[0]
+                novo_ponto_rot2 = rotacao(anguloalfa, eixorot2, novo_ponto_rot)[0]
 
                 try:
                     print("\nNovas coordenadas:\n")
@@ -137,7 +136,9 @@ class Cliente():
                     ponto_P = np.array([pontoP_X, pontoP_Y, pontoP_Z, 1])
                     vetor_translacao = np.array([tx, ty, 1, 1])
                     novo_ponto_trans = translacao(vetor_translacao, ponto_P)[0]
-                    novo_ponto_rot = rotacao(anguloteta, eixorot1.capitalize()[0], novo_ponto_trans)[0]
+                    print('oi')
+                    novo_ponto_rot = rotacao(anguloteta, eixorot1, novo_ponto_trans)[0]
+                    print('oi')
                     print(f"               |1 0 0 {tx}|       |{pontoP_X:2d}|   |{(int(novo_ponto_rot[0])):3d}|")
                     print(f"P' = T.R(P) =  |0 1 0 {ty}| x R x |{pontoP_Y:2d}| = |{(int(novo_ponto_rot[1])):3d}|")
                     print(f"               |0 0 1 {1}|       |{pontoP_Z:2d}|   |{(int(novo_ponto_rot[2])):3d}|")
@@ -147,7 +148,7 @@ class Cliente():
                     pontoP_X = 4; pontoP_Y = 5; pontoP_Z = 7
                     ponto_P = np.array([pontoP_X, pontoP_Y, pontoP_Z, 1])
                     vetor_translacao = np.array([tx, ty, 1, 1])
-                    novo_ponto_rot = rotacao(anguloteta, eixorot1.capitalize()[0], ponto_P)[0]
+                    novo_ponto_rot = rotacao(anguloteta, eixorot1, ponto_P)[0]
                     novo_ponto_trans = translacao(vetor_translacao, novo_ponto_rot)[0]
                     print(f"                   |1 0 0 {tx}|   |{pontoP_X:2d}|   |{(int(novo_ponto_trans[0])):3d}|")
                     print(f"P'' = R.T(P) = R x |0 1 0 {ty}| x |{pontoP_Y:2d}| = |{(int(novo_ponto_trans[1])):3d}|")
@@ -171,20 +172,12 @@ class Cliente():
                 a2 = int(input("a2: "))
                 
                 resultdenavit = denavit(q1, q2, a1, a2)
-                # px = 4; py = 5; pz = 6
-                # ptP_a_ser_rotacionado = np.array([px, py, pz, 1])
-                # eixo = 'z'
-                # novo_ponto_rot = rotacao(anguloteta, eixo.capitalize()[0], ptP_a_ser_rotacionado)
-                
+
                 try:
                     print("\nNovas coordenadas (x,y) do TCP:\n")
-                    print(f'A1: {resultdenavit[0]}')
-                    print(f'A2: {resultdenavit[1]}')
-                    print(f'Coords: {resultdenavit[2]}')
-                    # print(f"                   |{px:2d}|   |{(int(novo_ponto_rot[0])):3d}|")
-                    # print(f"P' = rot(P) = R{eixo} x |{py:2d}| = |{(int(novo_ponto_rot[1])):3d}|")
-                    # print(f"                   |{pz:2d}|   |{(int(novo_ponto_rot[2])):3d}|")
-                    # print(f"                   | 1|   |{(1*1):3d}|")
+                    print(f'A1:\n{resultdenavit[0]}\n')
+                    print(f'A2:\n{resultdenavit[1]}\n')
+                    print(f'Coords:\n{resultdenavit[2]}\n')
 
                     sleep(1)
                 except Exception as e:
@@ -192,8 +185,8 @@ class Cliente():
 
 
             elif sel == '7':
-                confirm_close = input('\nTecle "SIM" para sair: ').capitalize()[0]
-                if confirm_close == 'S':
+                confirm_close = input('\nTecle "SIM" para sair: ')
+                if confirm_close in 'Ss':
                     sleep(0.2)
                     print('\nSaindo...\n')
                     sleep(1)
@@ -217,19 +210,19 @@ def translacao(vetor_translacao, ponto_a_ser_transladado = np.array([1, 1, 1, 1]
 
 
 def rotacao(teta, eixo, pontop=np.array([1, 1, 1, 1])):
-    if eixo == 'X':
+    if eixo in 'xX':
         matrizRot = np.array([ [1, 0, 0, 0], 
-                      [0, int(cos(radians(teta))), int(-sin(radians(teta))), 0], 
-                      [0, int(sin(radians(teta))), int(cos(radians(teta))), 0], 
+                      [0, round(float(cos(radians(teta))),2), round(float(-sin(radians(teta))),2), 0], 
+                      [0, round(float(sin(radians(teta))),2), round(float(cos(radians(teta))),2), 0], 
                       [0, 0, 0, 1] ])
-    if eixo == 'Y':
-        matrizRot = np.array([ [int(cos(radians(teta))), 0, int(sin(radians(teta))), 0], 
+    if eixo in 'yY':
+        matrizRot = np.array([ [round(float(cos(radians(teta))),2), 0, round(float(sin(radians(teta))),2), 0], 
                       [0, 1, 0, 0], 
-                      [int(-sin(radians(teta))), 0, int(cos(radians(teta))), 0], 
+                      [round(float(-sin(radians(teta))),2), 0, round(float(cos(radians(teta))),2), 0], 
                       [0, 0, 0, 1] ])
-    if eixo == 'Z':
-        matrizRot = np.array([ [float(cos(radians(teta))), float(-sin(radians(teta))), 0, 0], 
-                      [float(sin(radians(teta))), float(cos(radians(teta))), 0, 0], 
+    if eixo in 'zZ':
+        matrizRot = np.array([ [round(float(cos(radians(teta))),2), round(float(-sin(radians(teta))),2), 0, 0], 
+                      [round(float(sin(radians(teta))),2), round(float(cos(radians(teta))),2), 0, 0], 
                       [0, 0, 1, 0], 
                       [0, 0, 0, 1] ])
                     
@@ -239,8 +232,6 @@ def rotacao(teta, eixo, pontop=np.array([1, 1, 1, 1])):
 
 
 def denavit(q1, q2, a1, a2):
-    print("rotacao(q1, 'Z')[1]:\n", rotacao(q1, 'Z')[1])
-    print("translacao(np.array([a1, 0, 0, 1])[1]):\n", translacao(np.array([a1, 0, 0, 1]))[1])
     A1 = np.dot(rotacao(q1, 'Z')[1],translacao(np.array([a1, a1, 0, 1]))[1])
     A2 = np.dot(rotacao(q2, 'Z')[1],translacao(np.array([a2, a2, 0, 1]))[1])
 
