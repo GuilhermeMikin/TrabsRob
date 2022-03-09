@@ -18,7 +18,7 @@ class Cliente():
             print('-'*80)
             print('Transformações Homogêneas'.center(80))
             print('-'*80)
-            sel = input("Serviços: \n1- Translação \n2- Translações sucessivas \n3- Rotação \n4- Rotações sucessivas \n5- Translação e rotação sucessivas \n6- Parâmetros de Denavit Hartenberg \n7- Sair \nServiço N°: ")
+            sel = input("Serviços: \n1- Translação \n2- Translações sucessivas \n3- Rotação \n4- Rotações sucessivas \n5- Translação e rotação sucessivas \n6- Parâmetros de Denavit Hartenberg 2D \n7- Parâmetros de Denavit Hartenberg 3D \n8- Sair \nServiço N°: ")
             
             if sel == '1':
                 print('\nDigite o ponto P(X,Y,Z) a ser transladado!')
@@ -161,15 +161,15 @@ class Cliente():
             
             elif sel == '6':
                 print('\nDigite os parâmetros de Denavit Hartenberg para um robô de dois elos, onde:\n')
-                print('                  |\u03B8j   dj   aj   \u03B1j|')
-                print('                  |q1    0   a1    0|')
-                print('                  |q2    0   a2    0|')
+                print('                  | \u03B8j   dj   aj   \u03B1j |')
+                print('                  | q1    0   a1    0 |')
+                print('                  | q2    0   a2    0 |')
                 q1 = int(input("\nq1: "))
                 q2 = int(input("q2: "))
                 a1 = int(input("a1: "))
                 a2 = int(input("a2: "))
                 
-                resultdenavit = denavit(q1, q2, a1, a2)
+                resultdenavit = denavit2d(q1, q2, a1, a2)
 
                 try:
                     print("\nNovas coordenadas (x,y) do TCP:\n")
@@ -183,6 +183,30 @@ class Cliente():
 
 
             elif sel == '7':
+                print('\nDigite os parâmetros de Denavit Hartenberg para um robô manipulador 2 DOF em 3D, onde:\n')
+                print('              | Elo | \u03B8     \u03B1    l    d |')
+                print('              |  1  | \u03B81   +90   0   L1 |')
+                print('              |  2  | \u03B82    0   L2    0 |')
+                theta1 = int(input("\n\u03B81: "))
+                theta2 = int(input("\u03B82: "))
+                l1 = int(input("L1: "))
+                l2 = int(input("L2: "))
+                
+                resultdenavit = denavit3d(theta1, theta2, l1, l2)
+
+                try:
+                    print("\nNovas coordenadas (x,y) do TCP:\n")
+                    print(f'A1:\n{resultdenavit[0]}\n')
+                    print(f'A2:\n{resultdenavit[1]}\n')
+                    print(f'Coords:\n{resultdenavit[2]}\n')
+
+                    sleep(1)
+                except Exception as e:
+                    print('ERRO: ', e.args)
+
+
+
+            elif sel == '8':
                 confirm_close = input('\nTecle "SIM" para sair: ')
                 if confirm_close in 'Ss':
                     sleep(0.2)
@@ -229,7 +253,16 @@ def rotacao(teta, eixo, pontop=np.array([1, 1, 1, 1])):
     return novoponto, matrizRot
 
 
-def denavit(q1, q2, a1, a2):
+def denavit2d(q1, q2, a1, a2):
+    A1 = np.dot(rotacao(q1, 'Z')[1],translacao(np.array([a1, a1, 0, 1]))[1])
+    A2 = np.dot(rotacao(q2, 'Z')[1],translacao(np.array([a2, a2, 0, 1]))[1])
+
+    coordenadas = np.dot(A1,A2)
+
+    return A1, A2, coordenadas
+
+
+def denavit3d(q1, q2, a1, a2):
     A1 = np.dot(rotacao(q1, 'Z')[1],translacao(np.array([a1, a1, 0, 1]))[1])
     A2 = np.dot(rotacao(q2, 'Z')[1],translacao(np.array([a2, a2, 0, 1]))[1])
 
