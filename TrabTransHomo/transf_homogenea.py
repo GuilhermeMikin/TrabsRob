@@ -18,7 +18,17 @@ class Cliente():
             print('-'*80)
             print('Transformações Homogêneas'.center(80))
             print('-'*80)
-            sel = input("Serviços: \n1- Translação \n2- Translações sucessivas \n3- Rotação \n4- Rotações sucessivas \n5- Translação e rotação sucessivas \n6- Parâmetros de Denavit Hartenberg 2D \n7- Parâmetros de Denavit Hartenberg 3D \n8- Sair \nServiço N°: ")
+            sel = input("""
+Serviços: 
+1- Translação 
+2- Translações sucessivas 
+3- Rotação 
+4- Rotações sucessivas 
+5- Translação e rotação sucessivas 
+6- Parâmetros de Denavit Hartenberg 2D 
+7- Parâmetros de Denavit Hartenberg 3D 
+8- Sair 
+Serviço N°: """)
             
             if sel == '1':
                 print('\nDigite o ponto P(X,Y,Z) a ser transladado!')
