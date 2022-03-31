@@ -16,7 +16,7 @@ class Cliente():
         while atendimento:
             print()
             print('-'*80)
-            print('Transformações Homogêneas'.center(80))
+            print('Trabalhos Robótica'.center(80))
             print('-'*80)
             sel = input("""
 Serviços: 
@@ -27,7 +27,8 @@ Serviços:
 5- Translação e rotação sucessivas 
 6- Parâmetros de Denavit Hartenberg 2D 
 7- Parâmetros de Denavit Hartenberg 3D 
-8- Sair 
+8- Cinemática Inversa
+9- Sair 
 Serviço N°: """)
             
             if sel == '1':
@@ -215,8 +216,27 @@ Serviço N°: """)
                     print('ERRO: ', e.args)
 
 
-
             elif sel == '8':
+                try:
+                    # Entrada dos valores x, y, fi, elo01 e elo02
+                    x = float(input("\nDigite o valor de x: "))
+                    y = float(input("Digite o valor de y: "))
+                    fi = float(input("Digite o valor de orientação do TCP (fi): "))
+                    l1 = float(input("Digite o comprimento do elo 01: "))
+                    l2 = float(input("Digite o comprimento do elo 02: "))
+
+                    # Chama a função de calculos dos angulos
+                    angulos = cinematica_inversa(x, y, fi, l1, l2)
+
+                    # Imprime os valores os angulos na tela
+                    print(f'\n\n\nOs ângulos de orientação do TCP são:\n\n\u03B8: {round(angulos[0], 3)}, \u03B82: {round(angulos[1], 3)} e \u03B83: {round(angulos[2], 3)}\n')
+
+                    sleep(5)
+                except Exception as e:
+                    print('ERRO: ', e.args)
+
+
+            elif sel == '9':
                 confirm_close = input('\nTecle "SIM" para sair: ')
                 if confirm_close in 'Ss':
                     sleep(0.2)
@@ -279,3 +299,23 @@ def denavit3d(q1, q2, a1, a2):
     coordenadas = np.dot(A1,A2)
 
     return A1, A2, coordenadas
+
+
+def cinematica_inversa(x, y, fi, l1, l2):
+    
+    # Calculos de teta2
+    a=(x**2 + y**2 - l1**2 - l2**2)
+    b=(2 * l1 * l2)
+    c=a/b
+    teta2 = acos(c)
+
+    # Condição para calculo de teta1
+    if teta2 > 0:
+        teta1 = atan2(y,x) - acos((x**2 + y**2 + l1**2 - l2**2)/(2*l1*sqrt(x**2 + y**2)))
+    else:
+        teta1 = atan2(y,x) + acos((x**2 + y**2 + l1**2 - l2**2)/(2*l1*sqrt(x**2 + y**2)))
+
+    # Calculo de teta 3
+    teta3 = fi - (degrees(teta1)+degrees(teta2))
+
+    return degrees(teta1), degrees(teta2), teta3
